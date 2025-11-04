@@ -11,14 +11,14 @@ export default function manifest(): MetadataRoute.Manifest {
 		theme_color: "#52c572",
 		icons: [
 			{
-				src: "/globals/saku-logo-192x192.svg",
+				src: "/globals/saku-logo-192x192.png",
 				sizes: "192x192",
-				type: "image/svg",
+				type: "image/png",
 			},
 			{
-				src: "/globals/saku-logo-512x512.svg",
+				src: "/globals/saku-logo-512x512.png",
 				sizes: "512x512",
-				type: "image/svg",
+				type: "image/png",
 			},
 		],
 	};

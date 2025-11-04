@@ -1,5 +1,9 @@
-import React from "react";
-// Menambahkan ikon baru untuk PWA Guide DAN Lokasi, serta media sosial
+"use client";
+
+import SakuLogo from "@/public/globals/saku-logo-512x512.png";
+import HeroPreview from "@/public/pages/landing-pages/ilustrasi-no-bg.png";
+import { useState, useEffect } from "react";
+
 import {
 	ArrowRight,
 	UserPlus,
@@ -10,133 +14,116 @@ import {
 	Rocket,
 	Instagram,
 	Twitter,
+	DownloadIcon,
 } from "lucide-react";
 
-// Komponen untuk inject font
-const StyleInjector: React.FC = () => (
-	<style>
-		{`
-      @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap');
-      
-      .font-grotesk {
-        font-family: 'Space Grotesk', sans-serif;
-      }
-      
-      .font-inter {
-        font-family: 'Inter', sans-serif;
-      }
+import Image from "next/image";
 
-      /* Custom animation for pulsating glow */
-      @keyframes pulse-glow {
-        0%, 100% {
-          opacity: 0.3;
-          transform: translate(-50%, -50%) scale(1);
-        }
-        50% {
-          opacity: 0.5;
-          transform: translate(-50%, -50%) scale(1.05);
-        }
-      }
-
-      .animate-pulse-glow {
-        animation: pulse-glow 4s infinite ease-in-out;
-      }
-
-      /* Custom button gradient border (TIDAK DIGUNAKAN LAGI DI HERO, tapi biarkan jika ingin dipakai di tempat lain) */
-      .btn-gradient-border {
-        position: relative;
-        z-index: 0;
-      }
-      .btn-gradient-border::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        border-radius: 9999px; /* Full rounded */
-        padding: 2px; /* Border thickness */
-        background: linear-gradient(to right, #3ecf8e, #279299);
-        -webkit-mask: 
-          linear-gradient(#fff 0 0) content-box, 
-          linear-gradient(#fff 0 0);
-        -webkit-mask-composite: xor;
-              mask-composite: exclude;
-        z-index: -1;
-      }
-    `}
-	</style>
-);
-
-// Komponen Header
 const Header: React.FC = () => {
+	const [visible, setVisible] = useState(true);
+	const [lastScrollY, setLastScrollY] = useState(0);
+
+	useEffect(() => {
+		const controlNavbar = () => {
+			if (typeof window !== "undefined") {
+				if (window.scrollY > 100) {
+					if (window.scrollY > lastScrollY) {
+						setVisible(false);
+					} else {
+						setVisible(true);
+					}
+				} else {
+					setVisible(true);
+				}
+				setLastScrollY(window.scrollY);
+			}
+		};
+
+		if (typeof window !== "undefined") {
+			window.addEventListener("scroll", controlNavbar);
+			return () => {
+				window.removeEventListener("scroll", controlNavbar);
+			};
+		}
+	}, [lastScrollY]);
+
 	return (
-		// Header dibuat sticky, dengan background glassmorphism
-		<header className="sticky top-0 left-0 right-0 z-50 w-full bg-[#101510]/70 backdrop-blur-lg">
-			<div className="container mx-auto max-w-7xl px-6 py-4 flex justify-between items-center">
-				{/* Logo - Dikecilkan sedikit di mobile */}
-				<div className="font-grotesk text-2xl md:text-3xl font-bold bg-linear-to-r from-[#3ecf8e] to-[#279299] bg-clip-text text-transparent">
-					SaKu
+		<header
+			className={`fixed top-0 left-0 right-0 z-50 w-full px-4 sm:px-6 py-4 transition-transform duration-300 ${
+				visible ? "translate-y-0" : "-translate-y-full"
+			}`}
+		>
+			{/* --- REVISI UI MODERN --- */}
+			<div className="container mx-auto flex rounded-full bg-linear-to-r from-[#3ecf8e]/10 to-[#279299]/10 backdrop-blur-lg p-2 justify-between items-center border border-gray-700/50">
+				{/* Logo */}
+				<div className="flex gap-2 sm:gap-3 justify-center items-center font-space-grotesk text-xl md:text-2xl font-bold bg-linear-to-r from-[#3ecf8e] to-[#279299] bg-clip-text text-transparent pl-2">
+					<Image
+						className="rounded-md"
+						src={SakuLogo}
+						alt="Logo SaKu"
+						width={40} // Dikecilkan sedikit
+						height={40}
+					/>
+					<span className="hidden sm:inline">
+						{" "}
+						{/* Sembunyikan teks di layar xs */}
+						saku
+						<span className="italic font-medium text-gray-400">.click</span>
+					</span>
 				</div>
 
-				{/* Navigasi - Tetap tersembunyi di mobile */}
-				<nav className="hidden md:flex items-center space-x-8 font-inter">
+				{/* Navigasi (Ditambahkan kembali) */}
+				<nav className="hidden md:flex items-center space-x-8 font-inter font-medium">
 					<a
 						href="#fitur"
-						className="text-gray-300 hover:text-[#52c572] transition-colors duration-200"
+						className="text-gray-300 hover:text-[#52c572] transition-colors duration-200 text-sm"
 					>
-						Fitur
+						Kenapa harus menggunakan SaKu?
 					</a>
 					<a
 						href="#lokasi"
-						className="text-gray-300 hover:text-[#52c572] transition-colors duration-200"
+						className="text-gray-300 hover:text-[#52c572] transition-colors duration-200 text-sm"
 					>
-						Lokasi
-					</a>
-					<a
-						href="#install"
-						className="text-gray-300 hover:text-[#52c572] transition-colors duration-200"
-					>
-						Cara Install
+						Baru beroperasi di-kampus mana aja sih?
 					</a>
 				</nav>
 
-				{/* Tombol CTA - Padding dikecilkan di mobile */}
-				<button className="font-inter font-semibold bg-[#52c572] text-black px-4 py-2 md:px-6 rounded-full hover:opacity-90 transition-opacity duration-200">
-					Buka App
-				</button>
+				{/* Tombol CTA (Revisi UI) */}
+				<a href="#install" className="flex items-center justify-center font-inter font-semibold bg-linear-to-r from-[#3ecf8e] to-[#279299] text-black px-4 sm:px-5 py-2.5 rounded-full hover:opacity-90 transition-opacity duration-200 text-sm shrink-0">
+					<DownloadIcon className="mr-0 sm:mr-2 h-4 w-4" />
+					<span className="hidden sm:inline">Unduh SaKu App</span>
+				</a>
 			</div>
 		</header>
 	);
 };
 
-// Komponen Hero
 const Hero: React.FC = () => {
 	return (
-		<section className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden bg-[#101510]">
-			{/* Background Glow Effect */}
+		<section className="px-20 relative min-h-screen flex items-center justify-center overflow-hidden bg-[#101510]">
 			<div className="absolute top-[10%] left-[5%] w-[400px] h-[400px] bg-linear-to-r from-[#3ecf8e]/15 to-[#279299]/15 rounded-full blur-3xl opacity-50 animate-pulse-glow" />
 
-			{/* Layout 2 kolom */}
-			<div className="relative z-10 container mx-auto max-w-7xl grid md:grid-cols-2 gap-12 items-center pt-12 pb-12">
-				{/* Kolom Kiri: Teks Konten - Dibuat center di mobile */}
-				<div className="flex flex-col items-center text-center md:items-start md:text-left">
-					{/* Slogan #diSakuinAja */}
+			<div className="relative z-10 container mx-auto flex flex-col md:flex-row gap-12 items-center pt-24 pb-12 px-6">
+				<div className="flex flex-col items-center text-center md:items-start md:text-left md:flex-1">
 					<div className="font-inter font-medium text-base md:text-lg px-4 py-2 rounded-full backdrop-blur-md bg-white/10 border border-gray-700/50 text-gray-200 mb-8 transform -rotate-1">
 						#diSakuinAja
 					</div>
 
-					{/* Judul Utama - Ukuran sudah responsif */}
-					<h1 className="font-grotesk font-bold text-5xl md:text-7xl lg:text-8xl text-white leading-tight mb-6 tracking-tighter">
+					<h1 className="font-space-grotesk font-bold text-3xl md:text-5xl text-white leading-tight mb-6 tracking-tighter">
 						SaKu -{" "}
 						<span className="bg-linear-to-r from-[#3ecf8e] to-[#279299] bg-clip-text text-transparent">
 							Sahabat Kuliah
 						</span>
 					</h1>
 
-					{/* Sub-Slogan - Ukuran sudah responsif */}
-					<p className="font-inter text-xl md:text-2xl text-gray-400 max-w-2xl mb-12">
-						Solusi Ojek Online dari mahasiswa, oleh mahasiswa, untuk mahasiswa.
+					<p className="font-inter text-xl tracking-tighter md:text-2xl text-gray-400 mb-12">
+						Layanan{" "}
+						<span className="text-white font-medium underline italic underline-offset-2">
+							Ojek Online
+						</span>{" "}
+						dari mahasiswa, oleh mahasiswa, untuk mahasiswa.
 					</p>
 
-					{/* Tombol CTA - Layout sudah responsif (flex-col sm:flex-row) */}
 					<div className="flex flex-col sm:flex-row gap-4">
 						<button className="font-inter font-semibold text-lg bg-linear-to-r from-[#3ecf8e] to-[#279299] text-black px-10 py-4 rounded-full transition-all duration-300 hover:scale-105 flex items-center justify-center">
 							Mulai Pesan
@@ -149,15 +136,11 @@ const Hero: React.FC = () => {
 					</div>
 				</div>
 
-				{/* Kolom Kanan: Visual Orb - Tetap hidden di mobile */}
-				<div className="relative hidden md:flex items-center justify-center h-[500px]">
-					{/* Orb visual besar */}
+				<div className="relative hidden md:flex items-center justify-center md:flex-1 h-[500px]">
 					<div className="absolute w-[500px] h-[500px] bg-linear-to-r from-[#3ecf8e] to-[#279299] rounded-full blur-3xl opacity-30" />
-					{/* Orb dalam */}
 					<div className="absolute w-[300px] h-[300px] bg-linear-to-r from-[#3ecf8e]/50 to-[#279299]/50 rounded-full blur-2xl opacity-50" />
-					{/* Placeholder 'App Screenshot' */}
-					<div className="relative font-grotesk text-3xl text-white/50 border-2 border-dashed border-gray-700 rounded-3xl p-16 bg-white/5 backdrop-blur-sm">
-						[ App Preview ]
+					<div className="relative font-space-grotesk text-3xl rounded-3xl p-16 backdrop-blur-sm">
+						<Image src={HeroPreview} alt="App Screenshot" width={400} height={400} />
 					</div>
 				</div>
 			</div>
@@ -165,7 +148,6 @@ const Hero: React.FC = () => {
 	);
 };
 
-// Komponen Fitur
 const Features: React.FC = () => {
 	const features = [
 		{
@@ -186,8 +168,7 @@ const Features: React.FC = () => {
 				</svg>
 			),
 			title: "Cepat & Tepat Waktu",
-			description:
-				"Driver kami sesama mahasiswa yang hafal jalan tikus kampus.",
+			description: "Driver kami sesama mahasiswa yang hafal jalan tikus kampus.",
 		},
 		{
 			icon: (
@@ -207,8 +188,7 @@ const Features: React.FC = () => {
 				</svg>
 			),
 			title: "Harga Mahasiswa",
-			description:
-				"Tarif super hemat yang gak bikin kantong kering di akhir bulan.",
+			description: "Tarif super hemat yang gak bikin kantong kering di akhir bulan.",
 		},
 		{
 			icon: (
@@ -228,27 +208,25 @@ const Features: React.FC = () => {
 				</svg>
 			),
 			title: "Satu Frekuensi",
-			description:
-				"Driver dan penumpang sama-sama anak kuliahan. Aman dan nyambung!",
+			description: "Driver dan penumpang sama-sama anak kuliahan. Aman dan nyambung!",
 		},
 	];
 
 	return (
-		<section id="fitur" className="py-16 md:py-24 bg-[#121812]">
-			<div className="container mx-auto max-w-7xl px-6">
-				<h2 className="font-grotesk text-4xl md:text-5xl font-bold text-center text-white mb-12 md:mb-16">
+		<section id="fitur" className="px-20 py-16 md:py-24 bg-[#121812]">
+			<div className="container mx-auto px-6 flex flex-col items-center">
+				<h2 className="font-space-grotesk text-4xl md:text-5xl font-bold text-center text-white mb-12 md:mb-16">
 					Kenapa SaKu?
 				</h2>
 
-				{/* Grid - Sudah responsif (stack di mobile) */}
-				<div className="grid md:grid-cols-3 gap-8">
+				<div className="flex flex-col md:flex-row gap-8 w-full">
 					{features.map((feature, index) => (
 						<div
 							key={index}
-							className="bg-[#1A201A] p-8 rounded-2xl border border-gray-800/50 transition-all duration-300 hover:border-[#52c572]/70 transform hover:-translate-y-2"
+							className="flex-1 bg-[#1A201A] p-8 rounded-2xl border border-gray-800/50 transition-all duration-300 hover:border-[#52c572]/70 transform hover:-translate-y-2"
 						>
 							<div className="mb-4">{feature.icon}</div>
-							<h3 className="font-grotesk text-2xl font-semibold text-white mb-3">
+							<h3 className="font-space-grotesk text-2xl font-semibold text-white mb-3">
 								{feature.title}
 							</h3>
 							<p className="font-inter text-gray-400">{feature.description}</p>
@@ -260,69 +238,61 @@ const Features: React.FC = () => {
 	);
 };
 
-// Komponen Baru: Info Lokasi
 const LocationInfo: React.FC = () => {
 	return (
 		<section
 			id="lokasi"
-			className="py-16 md:py-24 bg-[#121812] border-t border-b border-gray-800/50"
+			className="px-20 py-16 md:py-24 bg-[#121812] border-t border-b border-gray-800/50"
 		>
-			<div className="container mx-auto max-w-4xl px-6 text-center">
-				<h2 className="font-grotesk text-4xl md:text-5xl font-bold text-white mb-6">
+			<div className="container mx-auto px-6 flex flex-col items-center">
+				<h2 className="font-space-grotesk text-4xl md:text-5xl font-bold text-center text-white mb-6">
 					Area Operasi Kami
 				</h2>
-				<p className="font-inter text-xl text-gray-400 mb-10 max-w-2xl mx-auto">
+				<p className="font-inter text-xl text-gray-400 text-center mb-10 mx-auto">
 					Sebagai layanan ojek online{" "}
 					<span className="text-white font-medium">dari</span> dan{" "}
 					<span className="text-white font-medium">untuk</span> mahasiswa, saat
-					ini kami memfokuskan layanan di:
+					ini kami baru memfokuskan layanan di:
 				</p>
 
-				{/* --- KARTU LOKASI (UI BARU) --- */}
-				<div className="bg-[#1A201A] border border-gray-700/50 rounded-2xl p-8 overflow-hidden">
-					{/* Layout sudah responsif (stack di mobile) */}
-					<div className="flex flex-col md:flex-row items-center justify-between gap-8">
-						{/* Ikon / Visual - Dikecilkan di mobile */}
-						<div className="shrink-0 w-20 h-20 md:w-24 md:h-24 rounded-full bg-linear-to-r from-[#3ecf8e]/20 to-[#279299]/20 flex items-center justify-center border-2 border-[#3ecf8e]/50 backdrop-blur-sm">
-							<MapPin
-								className="w-10 h-10 md:w-12 md:h-12 text-[#3ecf8e]"
-								strokeWidth={1.5}
-							/>
-						</div>
+				<div className="flex flex-col items-center gap-12 w-full">
+					<div className="bg-[#1A201A] border border-gray-700/50 rounded-2xl p-8 overflow-hidden w-full">
+						<div className="flex flex-col md:flex-row items-center justify-between gap-6">
+							<div className="shrink-0 w-20 h-20 md:w-24 md:h-24 rounded-full bg-linear-to-r from-[#3ecf8e]/20 to-[#279299]/20 flex items-center justify-center border-2 border-[#3ecf8e]/50 backdrop-blur-sm">
+								<MapPin
+									className="w-10 h-10 md:w-12 md:h-12 text-[#3ecf8e]"
+									strokeWidth={1.5}
+								/>
+							</div>
 
-						{/* Teks Info - Sudah responsif (text-center md:text-left) */}
-						<div className="grow text-center md:text-left md:pl-4">
-							<h3 className="font-grotesk text-3xl md:text-4xl font-bold bg-linear-to-r from-[#3ecf8e] to-[#279299] bg-clip-text text-transparent">
-								UIN Suska Riau
-							</h3>
-							<p className="font-inter text-gray-300 text-lg mt-2">
-								(dan area strategis sekitarnya)
-							</p>
+							<div className="grow text-center md:text-left md:pl-1">
+								<h3 className="font-space-grotesk text-3xl md:text-4xl font-bold bg-linear-to-r from-[#3ecf8e] to-[#279299] bg-clip-text text-transparent">
+									UIN Suska Riau
+								</h3>
+								<p className="font-inter text-gray-300 text-lg mt-2">
+									(dan area strategis sekitarnya)
+								</p>
+							</div>
 						</div>
 					</div>
-				</div>
-				{/* --- AKHIR KARTU LOKASI --- */}
 
-				{/* --- KARTU PENGUMUMAN (UI BARU) --- */}
-				<div className="mt-12 bg-gray-800/30 border border-gray-700/60 rounded-xl p-6 flex items-center justify-center md:justify-start gap-5 max-w-2xl mx-auto">
-					<div className="shrink-0">
-						<Rocket className="w-6 h-6 text-[#52c572]" />
+					<div className="bg-gray-800/30 border border-gray-700/60 rounded-xl p-6 flex items-center justify-center md:justify-start gap-5">
+						<div className="shrink-0">
+							<Rocket className="w-6 h-6 text-[#52c572]" />
+						</div>
+						<p className="font-inter text-base md:text-lg text-gray-400 text-left">
+							<span className="font-medium text-gray-200">
+								Gak sabar pengen ada di-Kampusmu?
+							</span>{" "}
+							Nantikan kehadiran kami segera yak!
+						</p>
 					</div>
-					{/* Teks dikecilkan di mobile */}
-					<p className="font-inter text-base md:text-lg text-gray-400 text-left">
-						<span className="font-medium text-gray-200">
-							Kampusmu selanjutnya?
-						</span>{" "}
-						Nantikan kehadiran kami segera!
-					</p>
 				</div>
-				{/* --- AKHIR KARTU PENGUMUMAN --- */}
 			</div>
 		</section>
 	);
 };
 
-// Komponen PWA Install Guide
 const PwaInstallGuide: React.FC = () => {
 	const steps = [
 		{
@@ -346,33 +316,31 @@ const PwaInstallGuide: React.FC = () => {
 	];
 
 	return (
-		<section id="install" className="py-16 md:py-24 bg-[#101510]">
-			<div className="container mx-auto max-w-7xl px-6">
-				<h2 className="font-grotesk text-4xl md:text-5xl font-bold text-center text-white mb-6">
-					Install SaKu PWA
+		<section id="install" className="px-20 py-16 md:py-24 bg-[#101510]">
+			<div className="container mx-auto px-6 flex flex-col items-center">
+				<h2 className="font-space-grotesk text-4xl md:text-5xl font-bold text-center text-white mb-6">
+					Install SaKu App
 				</h2>
-				<p className="font-inter text-xl text-gray-400 text-center mb-12 md:mb-16 max-w-2xl mx-auto">
+				<p className="font-inter text-xl text-gray-400 text-center mb-12 md:mb-16 mx-auto">
 					Nikmati kemudahan akses SaKu langsung dari layar HP-mu, tanpa perlu
-					download di App Store.
+					download di Play Store atau App Store.
 				</p>
 
-				{/* --- UI VERTICAL TIMELINE --- */}
-				<div className="max-w-2xl mx-auto">
-					<div className="relative space-y-16">
-						{/* Garis vertikal di belakang - hidden di mobile (sudah benar) */}
-						<div className="absolute left-8 top-0 h-full w-px bg-gray-700 hidden md:block" />
+				<div className="w-full max-w-2xl">
+					<div className="relative flex flex-col gap-16">
+						<div className="absolute left-8 top-0 h-[90%] w-px bg-gray-700 hidden md:block" />
 
 						{steps.map((step, index) => (
-							<div key={index} className="relative flex items-start">
-								{/* Gelembung Ikon */}
+							<div
+								key={index}
+								className="relative flex flex-row items-start gap-8"
+							>
 								<div className="relative z-10 shrink-0 h-16 w-16 bg-[#1A201A] border-2 border-[#52c572] rounded-full flex items-center justify-center">
 									{step.icon}
 								</div>
 
-								{/* Konten Teks */}
-								<div className="ml-8 pt-1">
-									{/* Judul step dikecilkan di mobile */}
-									<h3 className="font-grotesk text-xl md:text-2xl font-semibold text-white mb-3">
+								<div className="pt-1">
+									<h3 className="font-space-grotesk text-xl md:text-2xl font-semibold text-white mb-3">
 										{step.title}
 									</h3>
 									<p className="font-inter text-gray-400">{step.description}</p>
@@ -381,13 +349,11 @@ const PwaInstallGuide: React.FC = () => {
 						))}
 					</div>
 				</div>
-				{/* --- AKHIR UI TIMELINE --- */}
 			</div>
 		</section>
 	);
 };
 
-// Komponen Ikon SVG kustom untuk Threads
 const ThreadsIcon: React.FC = () => (
 	<svg
 		xmlns="http://www.w3.org/2000/svg"
@@ -407,7 +373,6 @@ const ThreadsIcon: React.FC = () => (
 	</svg>
 );
 
-// Komponen Ikon SVG kustom untuk Tiktok
 const TiktokIcon: React.FC = () => (
 	<svg
 		xmlns="http://www.w3.org/2000/svg"
@@ -425,32 +390,32 @@ const TiktokIcon: React.FC = () => (
 	</svg>
 );
 
-// Komponen Footer (REVISI - Layout 2 kolom, tanpa "Layanan" dan tanpa title "Media Sosial")
 const Footer: React.FC = () => {
 	return (
-		<footer className="py-16 md:py-20 bg-[#101510] border-t border-gray-800/50">
-			<div className="container mx-auto max-w-7xl px-6">
-				{/* Konten Atas: Grid - Sudah responsif (stack di mobile) */}
-				<div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12 md:mb-16">
-					{/* Kolom 1: Logo & Slogan - Dibuat center di mobile */}
-					<div className="sm:col-span-1 text-center md:text-left">
-						<div className="font-grotesk text-3xl font-bold bg-linear-to-r from-[#3ecf8e] to-[#279299] bg-clip-text text-transparent mb-5">
-							SaKu
+		<footer className="px-13 py-5 bg-[#101510] border-t border-gray-800/50">
+			<div className="container mx-auto px-6">
+				<div className="flex flex-col md:flex-row gap-12 mb-12 md:mb-16 justify-between items-center md:items-start">
+					<div className="text-center md:text-left">
+						<div className="flex justify-center md:justify-start items-center h-full gap-3 font-space-grotesk text-3xl font-bold bg-linear-to-r from-[#3ecf8e] to-[#279299] bg-clip-text text-transparent mb-5">
+							<Image
+								className="rounded-md"
+								src={SakuLogo}
+								alt="Logo SaKu"
+								width={45}
+								height={45}
+							/>
+							<span>
+								saku
+								<span className="italic font-medium text-gray-400">.click</span>
+							</span>
 						</div>
-						<p className="font-inter text-gray-500 max-w-md mx-auto md:mx-0">
-							#diSakuinAja - Solusi ojek online dari mahasiswa, oleh mahasiswa,
+						<p className="font-inter text-gray-500 mx-auto md:mx-0 max-w-sm">
+							#diSakuinAja - Layanan ojek online dari mahasiswa, oleh mahasiswa,
 							untuk mahasiswa.
 						</p>
 					</div>
 
-					{/* Kolom 2: Navigasi Layanan (DIHAPUS) */}
-					{/* <div> ... </div> */}
-
-					{/* Kolom 2: Media Sosial (Hanya Ikon, Pojok Kanan, tanpa title) */}
-					<div className="sm:text-left md:text-right">
-						{/* Teks "Media Sosial" DIHAPUS */}
-
-						{/* Dibuat rata tengah di mobile, rata kanan di desktop */}
+					<div className="text-center md:text-right">
 						<div className="flex space-x-6 justify-center md:justify-end items-center h-full">
 							<a
 								href="#"
@@ -482,9 +447,7 @@ const Footer: React.FC = () => {
 							</a>
 						</div>
 					</div>
-				</div>{" "}
-				{/* Akhir Grid */}
-				{/* Garis Pemisah & Copyright */}
+				</div>
 				<div className="border-t border-gray-800/50 pt-10 text-center">
 					<p className="font-inter text-gray-500">
 						© {new Date().getFullYear()} Sahabat Kuliah (SaKu). Dibuat dengan ❤️
@@ -496,13 +459,11 @@ const Footer: React.FC = () => {
 	);
 };
 
-// Komponen App Utama
 const Home: React.FC = () => {
 	return (
-		<div className="bg-[#101510] text-white font-inter min-h-screen">
-			<StyleInjector />
+		<div className="bg-[#101510] text-white font-inter min-h-screen flex flex-col">
 			<Header />
-			<main>
+			<main className="grow">
 				<Hero />
 				<Features />
 				<LocationInfo />
