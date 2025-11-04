@@ -91,7 +91,7 @@ const Header: React.FC = () => {
 				{/* Tombol CTA (Revisi UI) */}
 				<a href="#install" className="flex items-center justify-center font-inter font-semibold bg-linear-to-r from-[#3ecf8e] to-[#279299] text-black px-4 sm:px-5 py-2.5 rounded-full hover:opacity-90 transition-opacity duration-200 text-sm shrink-0">
 					<DownloadIcon className="mr-0 sm:mr-2 h-4 w-4" />
-					<span className="hidden sm:inline">Unduh SaKu App</span>
+					<span className="inline">Unduh SaKu App</span>
 				</a>
 			</div>
 		</header>
@@ -100,7 +100,7 @@ const Header: React.FC = () => {
 
 const Hero: React.FC = () => {
 	return (
-		<section className="px-20 relative min-h-screen flex items-center justify-center overflow-hidden bg-[#101510]">
+		<section className="md:px-20 px-4 relative min-h-screen flex items-center justify-center overflow-hidden bg-[#101510]">
 			<div className="absolute top-[10%] left-[5%] w-[400px] h-[400px] bg-linear-to-r from-[#3ecf8e]/15 to-[#279299]/15 rounded-full blur-3xl opacity-50 animate-pulse-glow" />
 
 			<div className="relative z-10 container mx-auto flex flex-col md:flex-row gap-12 items-center pt-24 pb-12 px-6">
@@ -213,7 +213,7 @@ const Features: React.FC = () => {
 	];
 
 	return (
-		<section id="fitur" className="px-20 py-16 md:py-24 bg-[#121812]">
+		<section id="fitur" className="md:px-20 px-4 py-16 md:py-24 bg-[#121812]">
 			<div className="container mx-auto px-6 flex flex-col items-center">
 				<h2 className="font-space-grotesk text-4xl md:text-5xl font-bold text-center text-white mb-12 md:mb-16">
 					Kenapa SaKu?
@@ -242,7 +242,7 @@ const LocationInfo: React.FC = () => {
 	return (
 		<section
 			id="lokasi"
-			className="px-20 py-16 md:py-24 bg-[#121812] border-t border-b border-gray-800/50"
+			className="md:px-20 px-4 py-16 md:py-24 bg-[#121812] border-t border-b border-gray-800/50"
 		>
 			<div className="container mx-auto px-6 flex flex-col items-center">
 				<h2 className="font-space-grotesk text-4xl md:text-5xl font-bold text-center text-white mb-6">
@@ -316,7 +316,7 @@ const PwaInstallGuide: React.FC = () => {
 	];
 
 	return (
-		<section id="install" className="px-20 py-16 md:py-24 bg-[#101510]">
+		<section id="install" className="md:px-20 px-4 py-16 md:py-24 bg-[#101510]">
 			<div className="container mx-auto px-6 flex flex-col items-center">
 				<h2 className="font-space-grotesk text-4xl md:text-5xl font-bold text-center text-white mb-6">
 					Install SaKu App
