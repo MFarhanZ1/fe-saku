@@ -3,13 +3,16 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 // Impor ikon dari lucide-react
 import {
-	MapPin,
-	Users,
-	Navigation,
-	X,
-	LocateFixed,
-	Clock,
-	DollarSign,
+    MapPin,
+    Users,
+    Navigation,
+    X,
+    LocateFixed,
+    Clock,
+    DollarSign,
+    Loader, // <-- Tambahan
+    Star, // <-- Tambahan
+    Phone, // <-- Tambahan
 } from "lucide-react";
 
 /**
@@ -17,8 +20,8 @@ import {
  * dan CSS Leaflet ke dalam <head>
  */
 const StyleInjector: React.FC = () => (
-	<style>
-		{`
+    <style>
+        {`
       @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap');
       @import url('https://unpkg.com/leaflet@1.9.4/dist/leaflet.css');
       /* CSS untuk leaflet-routing-machine */
@@ -85,10 +88,10 @@ const StyleInjector: React.FC = () => (
         stroke-opacity: 0.8 !important;
       }
       .leaflet-routing-alt path:hover {
-         stroke-opacity: 1 !important;
+          stroke-opacity: 1 !important;
       }
     `}
-	</style>
+    </style>
 );
 
 /**
@@ -96,132 +99,132 @@ const StyleInjector: React.FC = () => (
  * Menerima state dan setter-nya dari komponen App (DARK MODE)
  */
 const OrderForm: React.FC<{
-	pickup: string;
-	destination: string;
-	onClearPickup: () => void;
-	onClearDestination: () => void;
+    pickup: string;
+    destination: string;
+    onClearPickup: () => void;
+    onClearDestination: () => void;
 }> = ({ pickup, destination, onClearPickup, onClearDestination }) => {
-	const [driverGender, setDriverGender] = useState<"any" | "male" | "female">(
-		"any"
-	);
+    const [driverGender, setDriverGender] = useState<"any" | "male" | "female">(
+        "any"
+    );
 
-	return (
-		// --- Layout diubah jadi tidak h-full, padding tetap ---
-		<div className="p-6 flex flex-col">
-			{/* Header Form */}
-			<div className="flex-none mb-8">
-				<h2 className="font-grotesk text-3xl font-bold text-white">
-					Pesan Ojek
-				</h2>
-				<p className="font-inter text-gray-400">
-					Tentukan lokasi jemput dan tujuanmu.
-				</p>
-			</div>
+    return (
+        // --- Layout diubah jadi tidak h-full, padding tetap ---
+        <div className="p-6 flex flex-col">
+            {/* Header Form */}
+            <div className="flex-none mb-8">
+                <h2 className="font-grotesk text-3xl font-bold text-white">
+                    Pesan Ojek
+                </h2>
+                <p className="font-inter text-gray-400">
+                    Tentukan lokasi jemput dan tujuanmu.
+                </p>
+            </div>
 
-			{/* Form Fields */}
-			<form className="grow space-y-6">
-				{/* Pilihan Gender Driver */}
-				<div>
-					<label className="font-inter font-medium text-gray-300 block mb-2">
-						Preferensi Driver
-					</label>
-					<div className="grid grid-cols-3 gap-2 bg-[#1A201A] border border-gray-700 rounded-lg p-1">
-						<button
-							type="button"
-							onClick={() => setDriverGender("any")}
-							className={`font-inter text-sm py-3 px-2 rounded-md transition ${
-								driverGender === "any"
-									? "bg-[#52c572] text-black font-semibold"
-									: "text-gray-400 hover:bg-gray-700"
-							}`}
-						>
-							Bebas
-						</button>
-						<button
-							type="button"
-							onClick={() => setDriverGender("male")}
-							className={`font-inter text-sm py-3 px-2 rounded-md transition ${
-								driverGender === "male"
-									? "bg-[#52c572] text-black font-semibold"
-									: "text-gray-400 hover:bg-gray-700"
-							}`}
-						>
-							Laki-laki
-						</button>
-						<button
-							type="button"
-							onClick={() => setDriverGender("female")}
-							className={`font-inter text-sm py-3 px-2 rounded-md transition ${
-								driverGender === "female"
-									? "bg-[#52c572] text-black font-semibold"
-									: "text-gray-400 hover:bg-gray-700"
-							}`}
-						>
-							Perempuan
-						</button>
-					</div>
-				</div>
+            {/* Form Fields */}
+            <form className="grow space-y-6">
+                {/* Pilihan Gender Driver */}
+                <div>
+                    <label className="font-inter font-medium text-gray-300 block mb-2">
+                        Preferensi Driver
+                    </label>
+                    <div className="grid grid-cols-3 gap-2 bg-[#1A201A] border border-gray-700 rounded-lg p-1">
+                        <button
+                            type="button"
+                            onClick={() => setDriverGender("any")}
+                            className={`font-inter text-sm py-3 px-2 rounded-md transition ${
+                                driverGender === "any"
+                                    ? "bg-[#52c572] text-black font-semibold"
+                                    : "text-gray-400 hover:bg-gray-700"
+                            }`}
+                        >
+                            Bebas
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => setDriverGender("male")}
+                            className={`font-inter text-sm py-3 px-2 rounded-md transition ${
+                                driverGender === "male"
+                                    ? "bg-[#52c572] text-black font-semibold"
+                                    : "text-gray-400 hover:bg-gray-700"
+                            }`}
+                        >
+                            Laki-laki
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => setDriverGender("female")}
+                            className={`font-inter text-sm py-3 px-2 rounded-md transition ${
+                                driverGender === "female"
+                                    ? "bg-[#52c572] text-black font-semibold"
+                                    : "text-gray-400 hover:bg-gray-700"
+                            }`}
+                        >
+                            Perempuan
+                        </button>
+                    </div>
+                </div>
 
-				{/* Input Lokasi Jemput */}
-				<div className="relative">
-					<label
-						htmlFor="pickup"
-						className="font-inter font-medium text-gray-300 mb-2 flex items-center"
-					>
-						<MapPin className="w-4 h-4 mr-2 text-green-500" />
-						Lokasi Jemput
-					</label>
-					<div className="relative">
-						<input
-							id="pickup"
-							type="text"
-							readOnly
-							value={pickup}
-							placeholder="Klik di peta atau cari lokasi..."
-							className="w-full bg-[#1A201A] border border-gray-700 text-white rounded-lg p-4 pl-12 focus:outline-none focus:border-[#52c572] placeholder:text-gray-500"
-						/>
-						<MapPin className="w-5 h-5 text-gray-500 absolute left-4 top-1/2 -translate-y-1/2" />
-						{pickup && (
-							<X
-								onClick={onClearPickup}
-								className="w-5 h-5 text-gray-500 absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer hover:text-white"
-							/>
-						)}
-					</div>
-				</div>
+                {/* Input Lokasi Jemput */}
+                <div className="relative">
+                    <label
+                        htmlFor="pickup"
+                        className="font-inter font-medium text-gray-300 mb-2 flex items-center"
+                    >
+                        <MapPin className="w-4 h-4 mr-2 text-green-500" />
+                        Lokasi Jemput
+                    </label>
+                    <div className="relative">
+                        <input
+                            id="pickup"
+                            type="text"
+                            readOnly
+                            value={pickup}
+                            placeholder="Klik di peta atau cari lokasi..."
+                            className="w-full bg-[#1A201A] border border-gray-700 text-white rounded-lg p-4 pl-12 focus:outline-none focus:border-[#52c572] placeholder:text-gray-500"
+                        />
+                        <MapPin className="w-5 h-5 text-gray-500 absolute left-4 top-1/2 -translate-y-1/2" />
+                        {pickup && (
+                            <X
+                                onClick={onClearPickup}
+                                className="w-5 h-5 text-gray-500 absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer hover:text-white"
+                            />
+                        )}
+                    </div>
+                </div>
 
-				{/* Input Lokasi Tujuan */}
-				<div className="relative">
-					<label
-						htmlFor="destination"
-						className="font-inter font-medium text-gray-300 mb-2 flex items-center"
-					>
-						<MapPin className="w-4 h-4 mr-2 text-red-500" />
-						Lokasi Tujuan
-					</label>
-					<div className="relative">
-						<input
-							id="destination"
-							type="text"
-							readOnly
-							value={destination}
-							placeholder="Klik di peta atau cari lokasi..."
-							className="w-full bg-[#1A201A] border border-gray-700 text-white rounded-lg p-4 pl-12 focus:outline-none focus:border-[#52c572] placeholder:text-gray-500"
-						/>
-						<MapPin className="w-5 h-5 text-gray-500 absolute left-4 top-1/2 -translate-y-1/2" />
-						{destination && (
-							<X
-								onClick={onClearDestination}
-								className="w-5 h-5 text-gray-500 absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer hover:text-white"
-							/>
-						)}
-					</div>
-				</div>
-			</form>
+                {/* Input Lokasi Tujuan */}
+                <div className="relative">
+                    <label
+                        htmlFor="destination"
+                        className="font-inter font-medium text-gray-300 mb-2 flex items-center"
+                    >
+                        <MapPin className="w-4 h-4 mr-2 text-red-500" />
+                        Lokasi Tujuan
+                    </label>
+                    <div className="relative">
+                        <input
+                            id="destination"
+                            type="text"
+                            readOnly
+                            value={destination}
+                            placeholder="Klik di peta atau cari lokasi..."
+                            className="w-full bg-[#1A201A] border border-gray-700 text-white rounded-lg p-4 pl-12 focus:outline-none focus:border-[#52c572] placeholder:text-gray-500"
+                        />
+                        <MapPin className="w-5 h-5 text-gray-500 absolute left-4 top-1/2 -translate-y-1/2" />
+                        {destination && (
+                            <X
+                                onClick={onClearDestination}
+                                className="w-5 h-5 text-gray-500 absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer hover:text-white"
+                            />
+                        )}
+                    </div>
+                </div>
+            </form>
 
-			{/* --- Tombol CTA Dihapus dari sini --- */}
-		</div>
-	);
+            {/* --- Tombol CTA Dihapus dari sini --- */}
+        </div>
+    );
 };
 
 /**
@@ -229,507 +232,679 @@ const OrderForm: React.FC<{
  * (LIGHT MODE)
  */
 const LeafletMap: React.FC<{
-	scriptLoaded: boolean;
-	onMapClick: (latlng: any) => void;
-	onLocate: (latlng: any) => void;
-	pickupCoords: any;
-	destinationCoords: any;
-	onClearPickup: () => void;
-	onClearDestination: () => void;
-	onRouteFound: (km: number) => void;
+    scriptLoaded: boolean;
+    onMapClick: (latlng: any) => void;
+    onLocate: (latlng: any) => void;
+    pickupCoords: any;
+    destinationCoords: any;
+    onClearPickup: () => void;
+    onClearDestination: () => void;
+    onRouteFound: (km: number) => void;
 }> = ({
-	scriptLoaded,
-	onMapClick,
-	onLocate,
-	pickupCoords,
-	destinationCoords,
-	onClearPickup,
-	onClearDestination,
-	onRouteFound,
+    scriptLoaded,
+    onMapClick,
+    onLocate,
+    pickupCoords,
+    destinationCoords,
+    onClearPickup,
+    onClearDestination,
+    onRouteFound,
 }) => {
-	const mapRef = useRef<HTMLDivElement>(null);
-	const mapInstance = useRef<any>(null);
-	const pickupMarkerRef = useRef<any>(null);
-	const destinationMarkerRef = useRef<any>(null);
-	const routingControlRef = useRef<any>(null);
+    const mapRef = useRef<HTMLDivElement>(null);
+    const mapInstance = useRef<any>(null);
+    const pickupMarkerRef = useRef<any>(null);
+    const destinationMarkerRef = useRef<any>(null);
+    const routingControlRef = useRef<any>(null);
 
-	// Gunakan ref untuk menyimpan callback terbaru (menghindari stale closure)
-	const onMapClickRef = useRef(onMapClick);
-	const onClearPickupRef = useRef(onClearPickup);
-	const onClearDestinationRef = useRef(onClearDestination);
-	const onRouteFoundRef = useRef(onRouteFound);
+    // Gunakan ref untuk menyimpan callback terbaru (menghindari stale closure)
+    const onMapClickRef = useRef(onMapClick);
+    const onClearPickupRef = useRef(onClearPickup);
+    const onClearDestinationRef = useRef(onClearDestination);
+    const onRouteFoundRef = useRef(onRouteFound);
 
-	useEffect(() => {
-		onMapClickRef.current = onMapClick;
-		onClearPickupRef.current = onClearPickup;
-		onClearDestinationRef.current = onClearDestination;
-		onRouteFoundRef.current = onRouteFound;
-	}, [onMapClick, onClearPickup, onClearDestination, onRouteFound]);
+    useEffect(() => {
+        onMapClickRef.current = onMapClick;
+        onClearPickupRef.current = onClearPickup;
+        onClearDestinationRef.current = onClearDestination;
+        onRouteFoundRef.current = onRouteFound;
+    }, [onMapClick, onClearPickup, onClearDestination, onRouteFound]);
 
-	// Efek untuk inisialisasi map (hanya jalan sekali)
-	useEffect(() => {
-		if (
-			!scriptLoaded ||
-			!mapRef.current ||
-			!(window as any).L ||
-			mapInstance.current
-		) {
-			return;
-		}
+    // Efek untuk inisialisasi map (hanya jalan sekali)
+    useEffect(() => {
+        if (
+            !scriptLoaded ||
+            !mapRef.current ||
+            !(window as any).L ||
+            mapInstance.current
+        ) {
+            return;
+        }
 
-		// Set View ke koordinat baru UIN Suska
-		const map = (window as any as any).L.map(mapRef.current).setView(
-			[0.46664927024151825, 101.3576994],
-			15
-		);
-		mapInstance.current = map;
+        // Set View ke koordinat baru UIN Suska
+        const map = (window as any as any).L.map(mapRef.current).setView(
+            [0.46664927024151825, 101.3576994],
+            15
+        );
+        mapInstance.current = map;
 
-		(window as any).L.tileLayer(
-			"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-			{
-				attribution:
-					'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-				maxZoom: 19,
-			}
-		).addTo(map);
+        (window as any).L.tileLayer(
+            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            {
+                attribution:
+                    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                maxZoom: 19,
+            }
+        ).addTo(map);
 
-		map.on("click", (e: any) => {
-			onMapClickRef.current(e.latlng);
-		});
+        map.on("click", (e: any) => {
+            onMapClickRef.current(e.latlng);
+        });
 
-		// Kontrol Kustom untuk "Locate Me"
-		const LocateControl = (window as any).L.Control.extend({
-			options: {
-				position: "bottomright",
-			},
-			onAdd: function (map: any) {
-				const container = (window as any).L.DomUtil.create(
-					"div",
-					"leaflet-control-locate leaflet-bar leaflet-control"
-				);
-				const link = (window as any).L.DomUtil.create(
-					"a",
-					"leaflet-control-locate-button",
-					container
-				);
-				link.href = "#";
-				link.title = "Lokasi Saya";
-				link.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>`;
-				link.style.backgroundColor = "white";
+        // Kontrol Kustom untuk "Locate Me"
+        const LocateControl = (window as any).L.Control.extend({
+            options: {
+                position: "bottomright",
+            },
+            onAdd: function (map: any) {
+                const container = (window as any).L.DomUtil.create(
+                    "div",
+                    "leaflet-control-locate leaflet-bar leaflet-control"
+                );
+                const link = (window as any).L.DomUtil.create(
+                    "a",
+                    "leaflet-control-locate-button",
+                    container
+                );
+                link.href = "#";
+                link.title = "Lokasi Saya";
+                link.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>`;
+                link.style.backgroundColor = "white";
 
-				(window as any).L.DomEvent.on(
-					link,
-					"click",
-					(window as any).L.DomEvent.stop
-				).on(link, "click", () => {
-					map.locate({ setView: true, maxZoom: 16 });
-				});
-				return container;
-			},
-		});
-		map.addControl(new LocateControl());
+                (window as any).L.DomEvent.on(
+                    link,
+                    "click",
+                    (window as any).L.DomEvent.stop
+                ).on(link, "click", () => {
+                    map.locate({ setView: true, maxZoom: 16 });
+                });
+                return container;
+            },
+        });
+        map.addControl(new LocateControl());
 
-		map.on("locationfound", (e: any) => {
-			onLocate(e.latlng);
-		});
-		map.on("locationerror", (e: any) => {
-			console.warn("Tidak bisa menemukan lokasimu: " + e.message);
-		});
-	}, [scriptLoaded, onLocate]);
+        map.on("locationfound", (e: any) => {
+            onLocate(e.latlng);
+        });
+        map.on("locationerror", (e: any) => {
+            console.warn("Tidak bisa menemukan lokasimu: " + e.message);
+        });
+    }, [scriptLoaded, onLocate]);
 
-	// Efek untuk menggambar/update marker (setiap state coords berubah)
-	useEffect(() => {
-		if (!mapInstance.current || !(window as any).L || !scriptLoaded) return;
+    // Efek untuk menggambar/update marker (setiap state coords berubah)
+    useEffect(() => {
+        if (!mapInstance.current || !(window as any).L || !scriptLoaded) return;
 
-		// Konten HTML Kustom Popup Jemput
-		const pickupPopupContent = `
+        // Konten HTML Kustom Popup Jemput
+        const pickupPopupContent = `
       <div class="custom-popup-content">
         <b>Lokasi Jemput</b>
         <button id="delete-pickup-btn" class="custom-popup-delete-button" title="Hapus Pin">&times;</button>
       </div>
     `;
 
-		// --- Handle Pickup Marker ---
-		if (pickupCoords) {
-			if (pickupMarkerRef.current) {
-				pickupMarkerRef.current.setLatLng(pickupCoords);
-			} else {
-				pickupMarkerRef.current = (window as any).L.marker(pickupCoords, {})
-					.addTo(mapInstance.current)
-					.bindPopup(pickupPopupContent, { closeButton: false }) // Hapus 'x' default
-					.on("popupopen", () => {
-						// Tambah listener ke tombol kustom kita SAAT popup terbuka
-						const btn = document.getElementById("delete-pickup-btn");
-						if (btn) {
-							btn.onclick = () => onClearPickupRef.current();
-						}
-					});
-				pickupMarkerRef.current.openPopup();
-			}
-		} else if (pickupMarkerRef.current) {
-			mapInstance.current.removeLayer(pickupMarkerRef.current);
-			pickupMarkerRef.current = null;
-		}
+        // --- Handle Pickup Marker ---
+        if (pickupCoords) {
+            if (pickupMarkerRef.current) {
+                pickupMarkerRef.current.setLatLng(pickupCoords);
+            } else {
+                pickupMarkerRef.current = (window as any).L.marker(pickupCoords, {})
+                    .addTo(mapInstance.current)
+                    .bindPopup(pickupPopupContent, { closeButton: false }) // Hapus 'x' default
+                    .on("popupopen", () => {
+                        // Tambah listener ke tombol kustom kita SAAT popup terbuka
+                        const btn = document.getElementById("delete-pickup-btn");
+                        if (btn) {
+                            btn.onclick = () => onClearPickupRef.current();
+                        }
+                    });
+                pickupMarkerRef.current.openPopup();
+            }
+        } else if (pickupMarkerRef.current) {
+            mapInstance.current.removeLayer(pickupMarkerRef.current);
+            pickupMarkerRef.current = null;
+        }
 
-		// Konten HTML Kustom Popup Tujuan
-		const destPopupContent = `
+        // Konten HTML Kustom Popup Tujuan
+        const destPopupContent = `
       <div class="custom-popup-content">
         <b>Lokasi Tujuan</b>
         <button id="delete-dest-btn" class="custom-popup-delete-button" title="Hapus Pin">&times;</button>
       </div>
     `;
 
-		// --- Handle Destination Marker ---
-		if (destinationCoords) {
-			if (destinationMarkerRef.current) {
-				destinationMarkerRef.current.setLatLng(destinationCoords);
-			} else {
-				destinationMarkerRef.current = (window as any).L.marker(
-					destinationCoords,
-					{}
-				)
-					.addTo(mapInstance.current)
-					.bindPopup(destPopupContent, { closeButton: false }) // Hapus 'x' default
-					.on("popupopen", () => {
-						// Tambah listener ke tombol kustom kita SAAT popup terbuka
-						const btn = document.getElementById("delete-dest-btn");
-						if (btn) {
-							btn.onclick = () => onClearDestinationRef.current();
-						}
-					});
-				destinationMarkerRef.current.openPopup();
-			}
-		} else if (destinationMarkerRef.current) {
-			mapInstance.current.removeLayer(destinationMarkerRef.current);
-			destinationMarkerRef.current = null;
-		}
-	}, [pickupCoords, destinationCoords, scriptLoaded]);
+        // --- Handle Destination Marker ---
+        if (destinationCoords) {
+            if (destinationMarkerRef.current) {
+                destinationMarkerRef.current.setLatLng(destinationCoords);
+            } else {
+                destinationMarkerRef.current = (window as any).L.marker(
+                    destinationCoords,
+                    {}
+                )
+                    .addTo(mapInstance.current)
+                    .bindPopup(destPopupContent, { closeButton: false }) // Hapus 'x' default
+                    .on("popupopen", () => {
+                        // Tambah listener ke tombol kustom kita SAAT popup terbuka
+                        const btn = document.getElementById("delete-dest-btn");
+                        if (btn) {
+                            btn.onclick = () => onClearDestinationRef.current();
+                        }
+                    });
+                destinationMarkerRef.current.openPopup();
+            }
+        } else if (destinationMarkerRef.current) {
+            mapInstance.current.removeLayer(destinationMarkerRef.current);
+            destinationMarkerRef.current = null;
+        }
+    }, [pickupCoords, destinationCoords, scriptLoaded]);
 
-	// Efek Menggambar Rute
-	useEffect(() => {
-		if (!mapInstance.current || !(window as any).L.Routing || !scriptLoaded)
-			return;
+    // Efek Menggambar Rute
+    useEffect(() => {
+        if (!mapInstance.current || !(window as any).L.Routing || !scriptLoaded)
+            return;
 
-		if (
-			pickupCoords &&
-			destinationCoords &&
-			(pickupCoords.lat !== destinationCoords.lat ||
-				pickupCoords.lng !== destinationCoords.lng)
-		) {
-			if (routingControlRef.current) {
-				mapInstance.current.removeControl(routingControlRef.current);
-			}
+        if (
+            pickupCoords &&
+            destinationCoords &&
+            (pickupCoords.lat !== destinationCoords.lat ||
+                pickupCoords.lng !== destinationCoords.lng)
+        ) {
+            if (routingControlRef.current) {
+                mapInstance.current.removeControl(routingControlRef.current);
+            }
 
-			const routingControl = (window as any).L.Routing.control({
-				waypoints: [
-					(window as any).L.latLng(pickupCoords.lat, pickupCoords.lng),
-					(window as any).L.latLng(
-						destinationCoords.lat,
-						destinationCoords.lng
-					),
-				],
-				routeWhileDragging: false,
-				addWaypoints: false,
-				draggableWaypoints: false,
-				fitSelectedRoutes: false,
-				show: false,
-				createMarker: () => null,
-				lineOptions: {
-					styles: [{ color: "#52c572", opacity: 0.8, weight: 6 }],
-				},
-			})
-				.on("routesfound", (e: any) => {
-					if (e.routes && e.routes.length > 0 && e.routes[0].summary) {
-						const summary = e.routes[0].summary;
-						const distanceKm = summary.totalDistance / 1000;
-						onRouteFoundRef.current(distanceKm);
+            const routingControl = (window as any).L.Routing.control({
+                waypoints: [
+                    (window as any).L.latLng(pickupCoords.lat, pickupCoords.lng),
+                    (window as any).L.latLng(
+                        destinationCoords.lat,
+                        destinationCoords.lng
+                    ),
+                ],
+                routeWhileDragging: false,
+                addWaypoints: false,
+                draggableWaypoints: false,
+                fitSelectedRoutes: false,
+                show: false,
+                createMarker: () => null,
+                lineOptions: {
+                    styles: [{ color: "#52c572", opacity: 0.8, weight: 6 }],
+                },
+            })
+                .on("routesfound", (e: any) => {
+                    if (e.routes && e.routes.length > 0 && e.routes[0].summary) {
+                        const summary = e.routes[0].summary;
+                        const distanceKm = summary.totalDistance / 1000;
+                        onRouteFoundRef.current(distanceKm);
 
-						const bounds = e.routes[0].bounds;
-						if (bounds && bounds.getSouthWest() && bounds.getNorthEast()) {
-							mapInstance.current.fitBounds(bounds, { padding: [50, 50] });
-						}
-					}
-				})
-				.on("routingerror", (e: any) => {
-					console.error("Leaflet Routing Error:", e.error);
-					if (routingControlRef.current) {
-						mapInstance.current.removeControl(routingControlRef.current);
-						routingControlRef.current = null;
-					}
-				})
-				.addTo(mapInstance.current);
+                        const bounds = e.routes[0].bounds;
+                        if (bounds && bounds.getSouthWest() && bounds.getNorthEast()) {
+                            mapInstance.current.fitBounds(bounds, { padding: [50, 50] });
+                        }
+                    }
+                })
+                .on("routingerror", (e: any) => {
+                    console.error("Leaflet Routing Error:", e.error);
+                    if (routingControlRef.current) {
+                        mapInstance.current.removeControl(routingControlRef.current);
+                        routingControlRef.current = null;
+                    }
+                })
+                .addTo(mapInstance.current);
 
-			routingControlRef.current = routingControl;
-		} else if (routingControlRef.current) {
-			// Hapus rute
-			mapInstance.current.removeControl(routingControlRef.current);
-			routingControlRef.current = null;
-		}
-	}, [pickupCoords, destinationCoords, scriptLoaded]);
+            routingControlRef.current = routingControl;
+        } else if (routingControlRef.current) {
+            // Hapus rute
+            mapInstance.current.removeControl(routingControlRef.current);
+            routingControlRef.current = null;
+        }
+    }, [pickupCoords, destinationCoords, scriptLoaded]);
 
-	return <div ref={mapRef} className="h-full w-full bg-gray-200" />;
+    return <div ref={mapRef} className="h-full w-full bg-gray-200" />;
 };
 
 /**
  * --- Komponen EstimationBar ---
  */
 const EstimationBar: React.FC<{
-	isOpen: boolean;
-	distance: number;
-	price: number;
-}> = ({ isOpen, distance, price }) => {
-	// Transisi untuk muncul/hilang
-	const barClass = isOpen
-		? "opacity-100 translate-y-0"
-		: "opacity-0 -translate-y-full pointer-events-none"; // Tambah pointer-events-none
+    isOpen: boolean;
+    distance: number;
+    price: number;
+    onFindDriver: () => void; // <-- Tambahan prop
+}> = ({ isOpen, distance, price, onFindDriver }) => {
+    // Transisi untuk muncul/hilang
+    const barClass = isOpen
+        ? "opacity-100 translate-y-0"
+        : "opacity-0 -translate-y-full pointer-events-none"; // Tambah pointer-events-none
 
-	return (
-		// z-index dinaikkan (1000 -> 1100)
-		<div
-			className={`fixed top-6 left-1/2 -translate-x-1/2 z-1100 w-full max-w-lg transition-all duration-300 ease-in-out ${barClass} px-4`}
-		>
-			<div className="flex items-center justify-between gap-4 bg-[#1A201A]/80 backdrop-blur-md border border-gray-700 rounded-full shadow-xl p-3 pl-6">
-				{/* Info Jarak & Harga */}
-				<div className="flex items-center divide-x divide-gray-700">
-					<div className="flex items-center pr-4">
-						<Clock className="w-4 h-4 mr-2 text-[#52c572]" />
-						<span className="font-inter text-sm text-gray-300">
-							{distance.toFixed(1)} km
-						</span>
-					</div>
-					<div className="flex items-center pl-4">
-						<DollarSign className="w-4 h-4 mr-2 text-[#52c572]" />
-						<span className="font-grotesk text-lg font-bold text-white">
-							Rp {price.toLocaleString("id-ID")},-
-						</span>
-					</div>
-				</div>
+    return (
+        // z-index dinaikkan (1000 -> 1100)
+        <div
+            className={`fixed top-6 left-1/2 -translate-x-1/2 z-1100 w-full max-w-lg transition-all duration-300 ease-in-out ${barClass} px-4`}
+        >
+            <div className="flex items-center justify-between gap-4 bg-[#1A201A]/80 backdrop-blur-md border border-gray-700 rounded-full shadow-xl p-3 pl-6">
+                {/* Info Jarak & Harga */}
+                <div className="flex items-center divide-x divide-gray-700">
+                    <div className="flex items-center pr-4">
+                        <Clock className="w-4 h-4 mr-2 text-[#52c572]" />
+                        <span className="font-inter text-sm text-gray-300">
+                            {distance.toFixed(1)} km
+                        </span>
+                    </div>
+                    <div className="flex items-center pl-4">
+                        <DollarSign className="w-4 h-4 mr-2 text-[#52c572]" />
+                        <span className="font-grotesk text-lg font-bold text-white">
+                            Rp {price.toLocaleString("id-ID")},-
+                        </span>
+                    </div>
+                </div>
 
-				{/* Tombol Aksi */}
-				<button className="font-inter font-semibold text-black bg-linear-to-r from-[#3ecf8e] to-[#279299] px-6 py-3 rounded-full transition-all duration-300 hover:scale-105 flex items-center text-sm">
-					Cari Driver
-					<Navigation className="w-4 h-4 ml-2" strokeWidth={2.5} />
-				</button>
-			</div>
-		</div>
-	);
+                {/* Tombol Aksi */}
+                <button
+                    onClick={onFindDriver} // <-- Tambahan onClick
+                    className="font-inter font-semibold text-black bg-linear-to-r from-[#3ecf8e] to-[#279299] px-6 py-3 rounded-full transition-all duration-300 hover:scale-105 flex items-center text-sm"
+                >
+                    Cari Driver
+                    <Navigation className="w-4 h-4 ml-2" strokeWidth={2.5} />
+                </button>
+            </div>
+        </div>
+    );
 };
+
+// --- KOMPONEN BARU UNTUK STATUS BOOKING ---
+
+interface BookingStatusProps {
+    state: 'IDLE' | 'SEARCHING' | 'FOUND' | 'EN_ROUTE';
+    driver: any | null;
+    onCancel: () => void;
+}
+
+const BookingStatus: React.FC<BookingStatusProps> = ({ state, driver, onCancel }) => {
+    
+    // --- 1. SEARCHING STATE ---
+    if (state === 'SEARCHING') {
+        return (
+            <div className="fixed inset-0 bg-black/50 z-2000 flex flex-col items-center justify-center backdrop-blur-sm">
+                <div className="bg-[#121812] border border-gray-700 p-8 rounded-2xl shadow-lg flex flex-col items-center gap-4">
+                    <Loader className="w-12 h-12 text-[#52c572] animate-spin" />
+                    <h3 className="font-grotesk text-2xl font-bold text-white">
+                        Sedang Mencari Driver...
+                    </h3>
+                    <p className="text-gray-400">Mohon tunggu sebentar.</p>
+                </div>
+            </div>
+        );
+    }
+
+    // --- 2. FOUND & EN_ROUTE STATES (Panel Bawah) ---
+    
+    const isPanelOpen = state === 'FOUND' || state === 'EN_ROUTE';
+    const panelClasses = isPanelOpen 
+        ? "translate-y-0 opacity-100" 
+        : "translate-y-full opacity-0 pointer-events-none";
+
+    // Jangan render apapun jika IDLE
+    if (state === 'IDLE') {
+        return null;
+    }
+
+    // Container Panel Bawah
+    return (
+        <div 
+            className={`fixed bottom-0 left-0 right-0 z-1100 p-4 transition-all duration-500 ease-in-out ${panelClasses}`}
+        >
+            <div className="max-w-xl mx-auto bg-[#121812] border border-gray-700 rounded-2xl shadow-2xl p-6">
+                
+                {/* --- FOUND State --- */}
+                {state === 'FOUND' && (
+                    <div className="flex flex-col items-center text-center animate-pulse">
+                        <h3 className="font-grotesk text-2xl font-bold text-[#52c572]">
+                            Driver Ditemukan!
+                        </h3>
+                        <p className="text-gray-400">Menghubungi {driver?.name}...</p>
+                    </div>
+                )}
+
+                {/* --- EN_ROUTE State --- */}
+                {state === 'EN_ROUTE' && (
+                     <div>
+                        {/* Header */}
+                        <h3 className="font-grotesk text-2xl font-bold text-white mb-4 text-center">
+                            Driver sedang menjemputmu
+                        </h3>
+                        
+                        {/* Driver Info */}
+                        <div className="flex items-center gap-4 mb-6">
+                            <img 
+                                src={driver?.imageUrl} 
+                                alt={driver?.name}
+                                className="w-16 h-16 rounded-full border-2 border-[#52c572] bg-gray-700" // Tambah bg-gray-700
+                                // Fallback jika image gagal load
+                                onError={(e) => {
+                                    const target = e.currentTarget;
+                                    target.src = 'https://placehold.co/100x100/1A201A/52c572?text=:)&font=inter';
+                                    target.onerror = null; // Mencegah loop
+                                }}
+                            />
+                            <div className="grow">
+                                <h4 className="text-lg font-bold text-white">{driver?.name}</h4>
+                                <div className="flex items-center gap-2 text-gray-400 text-sm">
+                                    <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+                                    <span>{driver?.rating}</span>
+                                    <span className="mx-1">·</span>
+                                    <span className="font-mono bg-gray-700 px-1.5 py-0.5 rounded">
+                                        {driver?.licensePlate}
+                                    </span>
+                                </div>
+                            </div>
+                            <button className="p-3 bg-gray-700 rounded-full hover:bg-gray-600 transition">
+                                <Phone className="w-5 h-5 text-white" />
+                            </button>
+                        </div>
+
+                        {/* Cancel Button */}
+                        <button 
+                            onClick={onCancel}
+                            className="w-full font-inter font-semibold text-center text-red-400 bg-red-900/50 py-3 rounded-lg hover:bg-red-900/80 transition"
+                        >
+                            Batalkan Pesanan
+                        </button>
+                     </div>
+                )}
+            </div>
+        </div>
+    );
+};
+
 
 /**
  * Komponen App Utama (Induk)
  * Mengelola state dan logika utama
  */
 const App: React.FC = () => {
-	const [scriptLoaded, setScriptLoaded] = useState(false);
+    const [scriptLoaded, setScriptLoaded] = useState(false);
 
-	// State ditarik ke atas (lifted state)
-	const [pickupCoords, setPickupCoords] = useState<any>(null);
-	const [destinationCoords, setDestinationCoords] = useState<any>(null);
-	const [pickupAddress, setPickupAddress] = useState("");
-	const [destinationAddress, setDestinationAddress] = useState("");
+    // State ditarik ke atas (lifted state)
+    const [pickupCoords, setPickupCoords] = useState<any>(null);
+    const [destinationCoords, setDestinationCoords] = useState<any>(null);
+    const [pickupAddress, setPickupAddress] = useState("");
+    const [destinationAddress, setDestinationAddress] = useState("");
 
-	// State untuk Bar Estimasi
-	const [distance, setDistance] = useState(0);
-	const [price, setPrice] = useState(0);
-	const [isBarOpen, setIsBarOpen] = useState(false);
+    // State untuk Bar Estimasi
+    const [distance, setDistance] = useState(0);
+    const [price, setPrice] = useState(0);
+    const [isBarOpen, setIsBarOpen] = useState(false);
 
-	// Efek Memuat Script Leaflet DAN Routing
-	useEffect(() => {
-		const leafletScriptId = "leaflet-script";
-		const routingScriptId = "leaflet-routing-script";
+    // --- State Baru untuk Alur Booking ---
+    type BookingState = 'IDLE' | 'SEARCHING' | 'FOUND' | 'EN_ROUTE';
+    const [bookingState, setBookingState] = useState<BookingState>('IDLE');
+    const [driver, setDriver] = useState<any>(null); // State untuk data dummy driver
 
-		if ((window as any).L && (window as any).L.Routing) {
-			setScriptLoaded(true);
-			return;
-		}
+    // Efek Memuat Script Leaflet DAN Routing
+    useEffect(() => {
+        const leafletScriptId = "leaflet-script";
+        const routingScriptId = "leaflet-routing-script";
 
-		const loadScript = (
-			id: string,
-			src: string,
-			onLoadCallback: () => void
-		) => {
-			if (document.getElementById(id)) {
-				const checkInterval = setInterval(() => {
-					if (
-						id === leafletScriptId &&
-						(window as any).L &&
-						typeof (window as any).L.map === "function"
-					) {
-						clearInterval(checkInterval);
-						onLoadCallback();
-					} else if (
-						id === routingScriptId &&
-						(window as any).L &&
-						(window as any).L.Routing
-					) {
-						clearInterval(checkInterval);
-						onLoadCallback();
-					}
-				}, 100);
-				return;
-			}
+        if ((window as any).L && (window as any).L.Routing) {
+            setScriptLoaded(true);
+            return;
+        }
 
-			const script = document.createElement("script");
-			script.id = id;
-			script.src = src;
-			script.async = true;
-			script.onload = onLoadCallback;
-			script.onerror = () => console.error(`Gagal memuat script: ${src}`);
-			document.body.appendChild(script);
-		};
+        const loadScript = (
+            id: string,
+            src: string,
+            onLoadCallback: () => void
+        ) => {
+            if (document.getElementById(id)) {
+                const checkInterval = setInterval(() => {
+                    if (
+                        id === leafletScriptId &&
+                        (window as any).L &&
+                        typeof (window as any).L.map === "function"
+                    ) {
+                        clearInterval(checkInterval);
+                        onLoadCallback();
+                    } else if (
+                        id === routingScriptId &&
+                        (window as any).L &&
+                        (window as any).L.Routing
+                    ) {
+                        clearInterval(checkInterval);
+                        onLoadCallback();
+                    }
+                }, 100);
+                return;
+            }
 
-		loadScript(
-			leafletScriptId,
-			"https://unpkg.com/leaflet@1.9.4/dist/leaflet.js",
-			() => {
-				loadScript(
-					routingScriptId,
-					"https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js",
-					() => {
-						setScriptLoaded(true);
-					}
-				);
-			}
-		);
+            const script = document.createElement("script");
+            script.id = id;
+            script.src = src;
+            script.async = true;
+            script.onload = onLoadCallback;
+            script.onerror = () => console.error(`Gagal memuat script: ${src}`);
+            document.body.appendChild(script);
+        };
 
-		return () => {
-			const lScript = document.getElementById(leafletScriptId);
-			const rScript = document.getElementById(routingScriptId);
-			if (lScript && lScript.parentElement)
-				lScript.parentElement.removeChild(lScript);
-			if (rScript && rScript.parentElement)
-				rScript.parentElement.removeChild(rScript);
-		};
-	}, []);
+        loadScript(
+            leafletScriptId,
+            "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js",
+            () => {
+                loadScript(
+                    routingScriptId,
+                    "https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js",
+                    () => {
+                        setScriptLoaded(true);
+                    }
+                );
+            }
+        );
 
-	// Kalkulator Harga
-	const calculatePrice = (km: number) => {
-		if (km <= 2.2) return 6000;
-		if (km <= 3.0) return 7000;
-		if (km <= 4.0) return 8000;
-		if (km <= 4.5) return 9000;
-		if (km <= 5.0) return 10000;
-		if (km <= 5.5) return 11000;
-		if (km <= 6.0) return 12000;
-		if (km <= 6.5) return 13000;
-		if (km <= 7.0) return 14000;
-		if (km <= 7.5) return 15000;
-		if (km <= 8.0) return 16000;
-		if (km <= 8.5) return 17000;
-		if (km <= 9.0) return 18000;
-		if (km <= 9.5) return 19000;
-		if (km <= 10.0) return 20000;
-		if (km <= 11.0) return 24000;
-		if (km <= 12.0) return 26000;
-		if (km <= 13.0) return 28000;
-		if (km <= 14.0) return 30000;
-		if (km <= 15.0) return 32000;
-		if (km <= 16.0) return 34000;
-		if (km <= 17.0) return 36000;
-		if (km <= 18.0) return 38000;
-		if (km <= 19.0) return 40000;
-		if (km <= 20.0) return 43000;
-		if (km <= 21.0) return 45000;
-		if (km <= 22.0) return 47000;
-		if (km <= 23.0) return 49000;
-		if (km <= 24.0) return 51000;
-		if (km <= 25.0) return 55000;
-		return 55000 + Math.floor(km - 25) * 2000;
-	};
+        return () => {
+            const lScript = document.getElementById(leafletScriptId);
+            const rScript = document.getElementById(routingScriptId);
+            if (lScript && lScript.parentElement)
+                lScript.parentElement.removeChild(lScript);
+            if (rScript && rScript.parentElement)
+                rScript.parentElement.removeChild(rScript);
+        };
+    }, []);
 
-	// Callback untuk klik di peta
-	const handleMapClick = (latlng: any) => {
-		const latLngString = `${latlng.lat.toFixed(5)}, ${latlng.lng.toFixed(5)}`;
+    // Kalkulator Harga
+    const calculatePrice = (km: number) => {
+        if (km <= 2.2) return 6000;
+        if (km <= 3.0) return 7000;
+        if (km <= 4.0) return 8000;
+        if (km <= 4.5) return 9000;
+        if (km <= 5.0) return 10000;
+        if (km <= 5.5) return 11000;
+        if (km <= 6.0) return 12000;
+        if (km <= 6.5) return 13000;
+        if (km <= 7.0) return 14000;
+        if (km <= 7.5) return 15000;
+        if (km <= 8.0) return 16000;
+        if (km <= 8.5) return 17000;
+        if (km <= 9.0) return 18000;
+        if (km <= 9.5) return 19000;
+        if (km <= 10.0) return 20000;
+        if (km <= 11.0) return 24000;
+        if (km <= 12.0) return 26000;
+        if (km <= 13.0) return 28000;
+        if (km <= 14.0) return 30000;
+        if (km <= 15.0) return 32000;
+        if (km <= 16.0) return 34000;
+        if (km <= 17.0) return 36000;
+        if (km <= 18.0) return 38000;
+        if (km <= 19.0) return 40000;
+        if (km <= 20.0) return 43000;
+        if (km <= 21.0) return 45000;
+        if (km <= 22.0) return 47000;
+        if (km <= 23.0) return 49000;
+        if (km <= 24.0) return 51000;
+        if (km <= 25.0) return 55000;
+        return 55000 + Math.floor(km - 25) * 2000;
+    };
 
-		setIsBarOpen(false); // Selalu sembunyikan bar saat klik map
+    // Callback untuk klik di peta
+    const handleMapClick = (latlng: any) => {
+        const latLngString = `${latlng.lat.toFixed(5)}, ${latlng.lng.toFixed(5)}`;
 
-		if (!pickupCoords) {
-			// 1. Klik pertama: Set Pickup
-			setPickupCoords(latlng);
-			setPickupAddress(latLngString);
-			setDestinationCoords(null);
-			setDestinationAddress("");
-		} else if (!destinationCoords) {
-			// 2. Klik kedua: Set Destination
-			setDestinationCoords(latlng);
-			setDestinationAddress(latLngString);
-		} else {
-			// 3. Klik ketiga (atau lebih): Reset, jadi Pickup baru
-			setPickupCoords(latlng);
-			setPickupAddress(latLngString);
-			setDestinationCoords(null);
-			setDestinationAddress("");
-		}
-	};
+        setIsBarOpen(false); // Selalu sembunyikan bar saat klik map
 
-	// Callback untuk tombol 'Locate Me'
-	const handleLocate = (latlng: any) => {
-		const latLngString = `${latlng.lat.toFixed(5)}, ${latlng.lng.toFixed(5)}`;
+        if (!pickupCoords) {
+            // 1. Klik pertama: Set Pickup
+            setPickupCoords(latlng);
+            setPickupAddress(latLngString);
+            setDestinationCoords(null);
+            setDestinationAddress("");
+        } else if (!destinationCoords) {
+            // 2. Klik kedua: Set Destination
+            setDestinationCoords(latlng);
+            setDestinationAddress(latLngString);
+        } else {
+            // 3. Klik ketiga (atau lebih): Reset, jadi Pickup baru
+            setPickupCoords(latlng);
+            setPickupAddress(latLngString);
+            setDestinationCoords(null);
+            setDestinationAddress("");
+        }
+    };
 
-		setIsBarOpen(false); // Sembunyikan bar
+    // Callback untuk tombol 'Locate Me'
+    const handleLocate = (latlng: any) => {
+        const latLngString = `${latlng.lat.toFixed(5)}, ${latlng.lng.toFixed(5)}`;
 
-		setPickupCoords(latlng);
-		setPickupAddress(latLngString);
-		setDestinationCoords(null);
-		setDestinationAddress("");
-	};
+        setIsBarOpen(false); // Sembunyikan bar
 
-	// --- FUNGSI UNTUK MENGHAPUS PIN ---
-	const handleClearPickup = () => {
-		setIsBarOpen(false); // Sembunyikan bar
-		setPickupAddress("");
-		setPickupCoords(null);
-	};
+        setPickupCoords(latlng);
+        setPickupAddress(latLngString);
+        setDestinationCoords(null);
+        setDestinationAddress("");
+    };
 
-	const handleClearDestination = () => {
-		setIsBarOpen(false); // Sembunyikan bar
-		setDestinationAddress("");
-		setDestinationCoords(null);
-	};
+    // --- FUNGSI UNTUK MENGHAPUS PIN ---
+    const handleClearPickup = () => {
+        setIsBarOpen(false); // Sembunyikan bar
+        setPickupAddress("");
+        setPickupCoords(null);
+    };
 
-	// Handler untuk Rute Ditemukan
-	const handleRouteFound = useCallback((km: number) => {
-		const calculatedPrice = calculatePrice(km);
-		setDistance(km);
-		setPrice(calculatedPrice);
-		setIsBarOpen(true); // Tampilkan bar
-	}, []); // Deps kosong
+    const handleClearDestination = () => {
+        setIsBarOpen(false); // Sembunyikan bar
+        setDestinationAddress("");
+        setDestinationCoords(null);
+    };
 
-	return (
-		// --- PERBAIKAN: Layout diubah jadi relative ---
-		<div className="bg-[#101510] text-white font-inter min-h-screen relative">
-			<StyleInjector />
+    // Handler untuk Rute Ditemukan
+    const handleRouteFound = useCallback((km: number) => {
+        const calculatedPrice = calculatePrice(km);
+        setDistance(km);
+        setPrice(calculatedPrice);
+        setIsBarOpen(true); // Tampilkan bar
+    }, []); // Deps kosong
 
-			{/* --- PERBAIKAN: Wrapper Form diubah jadi absolute z-[1050] --- */}
-			<div className="absolute top-1/2 -translate-y-1/2 left-6 z-1050 w-full max-w-sm">
-				<div className="bg-[#121812] shadow-lg rounded-2xl overflow-hidden border border-gray-700/50">
-					<OrderForm
-						pickup={pickupAddress}
-						destination={destinationAddress}
-						onClearPickup={handleClearPickup}
-						onClearDestination={handleClearDestination}
-					/>
-				</div>
-			</div>
+    // --- Handler Baru untuk Alur Booking ---
 
-			{/* --- PERBAIKAN: Peta diubah jadi w-full h-screen --- */}
-			<div className="w-full h-screen z-10">
-				<LeafletMap
-					scriptLoaded={scriptLoaded}
-					onMapClick={handleMapClick}
-					onLocate={handleLocate}
-					pickupCoords={pickupCoords}
-					destinationCoords={destinationCoords}
-					onClearPickup={handleClearPickup}
-					onClearDestination={handleClearDestination}
-					onRouteFound={handleRouteFound}
-				/>
-			</div>
+    const handleFindDriver = () => {
+        console.log("Mulai mencari driver...");
+        setBookingState('SEARCHING');
+        
+        // Sembunyikan bar estimasi
+        setIsBarOpen(false);
 
-			{/* Render EstimationBar */}
-			<EstimationBar isOpen={isBarOpen} distance={distance} price={price} />
-		</div>
-	);
+        // --- DUMMY SIMULASI ---
+        // 1. Simulasikan pencarian (3 detik)
+        setTimeout(() => {
+            const dummyDriver = {
+                name: "Ahmad Sutrisno",
+                licensePlate: "BM 1234 ABC",
+                rating: 4.9,
+                // Menggunakan placehold.co untuk gambar dummy
+                imageUrl: "https://placehold.co/100x100/52c572/121812?text=AS&font=inter",
+            };
+            setDriver(dummyDriver);
+            setBookingState('FOUND'); // <-- Driver ditemukan
+
+            // 2. Simulasikan transisi ke "En Route" (setelah 2 detik)
+            setTimeout(() => {
+                setBookingState('EN_ROUTE'); // <-- Driver mulai menjemput
+            }, 2000);
+
+        }, 3000);
+    };
+
+    const handleCancelBooking = () => {
+        console.log("Pesanan dibatalkan.");
+        setBookingState('IDLE');
+        setDriver(null);
+        // Tampilkan kembali bar estimasi jika koordinat masih ada
+        if (pickupCoords && destinationCoords) {
+            setIsBarOpen(true);
+        }
+    };
+
+
+    return (
+        // --- PERBAIKAN: Layout diubah jadi relative ---
+        <div className="bg-[#101510] text-white font-inter min-h-screen relative">
+            <StyleInjector />
+
+            {/* --- PERBAIKAN: Wrapper Form diubah jadi absolute z-[1050] --- */}
+            {/* --- Sembunyikan form jika sedang dalam proses booking --- */}
+            {bookingState === 'IDLE' && (
+                <div className="absolute top-1/2 -translate-y-1/2 left-6 z-1050 w-full max-w-sm">
+                    <div className="bg-[#121812] shadow-lg rounded-2xl overflow-hidden border border-gray-700/50">
+                        <OrderForm
+                            pickup={pickupAddress}
+                            destination={destinationAddress}
+                            onClearPickup={handleClearPickup}
+                            onClearDestination={handleClearDestination}
+                        />
+                    </div>
+                </div>
+            )}
+
+            {/* --- PERBAIKAN: Peta diubah jadi w-full h-screen --- */}
+            <div className="w-full h-screen z-10">
+                <LeafletMap
+                    scriptLoaded={scriptLoaded}
+                    onMapClick={handleMapClick}
+                    onLocate={handleLocate}
+                    pickupCoords={pickupCoords}
+                    destinationCoords={destinationCoords}
+                    onClearPickup={handleClearPickup}
+                    onClearDestination={handleClearDestination}
+                    onRouteFound={handleRouteFound}
+                />
+            </div>
+
+            {/* Render EstimationBar */}
+            {/* --- Hanya tampilkan jika state IDLE --- */}
+            <EstimationBar
+                isOpen={isBarOpen && bookingState === 'IDLE'} 
+                distance={distance}
+                price={price}
+                onFindDriver={handleFindDriver}
+            />
+
+            {/* --- Render UI Status Booking Baru --- */}
+            <BookingStatus
+                state={bookingState}
+                driver={driver}
+                onCancel={handleCancelBooking}
+            />
+        </div>
+    );
 };
 
 export default App;
