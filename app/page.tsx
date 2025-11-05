@@ -125,10 +125,10 @@ const Hero: React.FC = () => {
 					</p>
 
 					<div className="flex flex-col sm:flex-row gap-4">
-						<button className="font-inter font-semibold text-lg bg-linear-to-r from-[#3ecf8e] to-[#279299] text-black px-10 py-4 rounded-full transition-all duration-300 hover:scale-105 flex items-center justify-center">
+						<a href="/customer/saku-ride" className="font-inter font-semibold text-lg bg-linear-to-r from-[#3ecf8e] to-[#279299] text-black px-10 py-4 rounded-full transition-all duration-300 hover:scale-105 flex items-center justify-center">
 							Mulai Pesan
 							<ArrowRight className="w-5 h-5 ml-2" strokeWidth={2.5} />
-						</button>
+						</a>
 						<button className="font-inter font-semibold text-lg bg-gray-800/60 backdrop-blur-md border border-gray-700 text-white px-10 py-4 rounded-full transition-all duration-300 hover:bg-gray-700/80 hover:border-gray-600 flex items-center justify-center">
 							Gabung SaKu Driver
 							<UserPlus className="w-6 h-6 ml-2" strokeWidth={1.5} />
