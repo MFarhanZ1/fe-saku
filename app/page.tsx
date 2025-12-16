@@ -135,11 +135,11 @@ const Hero: React.FC = () => {
 					</div>
 				</div>
 
-				<div className="relative hidden items-center justify-center md:flex-1 h-[350px] md:h-[500px] w-full mt-8 md:mt-0">
-					<div className="absolute w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-linear-to-r from-[#3ecf8e] to-[#279299] rounded-full blur-3xl opacity-30" />
-					<div className="absolute w-[200px] md:w-[300px] h-[200px] md:h-[300px] bg-linear-to-r from-[#3ecf8e]/50 to-[#279299]/50 rounded-full blur-2xl opacity-50" />
-					<div className="relative font-space-grotesk text-3xl rounded-3xl p-8 md:p-16 backdrop-blur-sm transform scale-90 md:scale-100">
-						<Image src={HeroPreview} alt="App Screenshot" width={400} height={400} className="w-auto h-auto max-h-[300px] md:max-h-full" />
+				<div className="relative hidden md:flex items-center justify-center md:flex-1 h-[500px]">
+					<div className="absolute w-[500px] h-[500px] bg-linear-to-r from-[#3ecf8e] to-[#279299] rounded-full blur-3xl opacity-30" />
+					<div className="absolute w-[300px] h-[300px] bg-linear-to-r from-[#3ecf8e]/50 to-[#279299]/50 rounded-full blur-2xl opacity-50" />
+					<div className="relative font-space-grotesk text-3xl rounded-3xl p-16 backdrop-blur-sm">
+						<Image src={HeroPreview} alt="App Screenshot" width={400} height={400} />
 					</div>
 				</div>
 			</div>
