@@ -49,9 +49,8 @@ const Header: React.FC = () => {
 
 	return (
 		<header
-			className={`fixed top-0 left-0 right-0 z-50 w-full px-4 sm:px-6 py-4 transition-transform duration-300 ${
-				visible ? "translate-y-0" : "-translate-y-full"
-			}`}
+			className={`fixed top-0 left-0 right-0 z-50 w-full px-4 sm:px-6 py-4 transition-transform duration-300 ${visible ? "translate-y-0" : "-translate-y-full"
+				}`}
 		>
 			{/* --- REVISI UI MODERN --- */}
 			<div className="container mx-auto flex rounded-full bg-linear-to-r from-[#3ecf8e]/10 to-[#279299]/10 backdrop-blur-lg p-2 justify-between items-center border border-gray-700/50">
@@ -89,9 +88,9 @@ const Header: React.FC = () => {
 				</nav>
 
 				{/* Tombol CTA (Revisi UI) */}
-				<a href="#install" className="flex items-center justify-center font-inter font-semibold bg-linear-to-r from-[#3ecf8e] to-[#279299] text-black px-4 sm:px-5 py-2.5 rounded-full hover:opacity-90 transition-opacity duration-200 text-sm shrink-0">
-					<DownloadIcon className="mr-0 sm:mr-2 h-4 w-4" />
-					<span className="inline">Unduh SaKu App</span>
+				<a href="#install" className="flex items-center justify-center font-inter font-semibold bg-linear-to-r from-[#3ecf8e] to-[#279299] text-black px-3 sm:px-5 py-2 sm:py-2.5 rounded-full hover:opacity-90 transition-opacity duration-200 text-xs sm:text-sm shrink-0">
+					<DownloadIcon className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+					<span className="inline">Unduh App</span>
 				</a>
 			</div>
 		</header>
@@ -116,7 +115,7 @@ const Hero: React.FC = () => {
 						</span>
 					</h1>
 
-					<p className="font-inter text-xl tracking-tighter md:text-2xl text-gray-400 mb-12">
+					<p className="font-inter text-lg sm:text-xl tracking-tighter md:text-2xl text-gray-400 mb-8 md:mb-12">
 						Layanan{" "}
 						<span className="text-white font-medium underline italic underline-offset-2">
 							Ojek Online
@@ -124,23 +123,23 @@ const Hero: React.FC = () => {
 						dari mahasiswa, oleh mahasiswa, untuk mahasiswa.
 					</p>
 
-					<div className="flex flex-col sm:flex-row gap-4">
-						<a href="/customer/saku-ride" className="font-inter font-semibold text-lg bg-linear-to-r from-[#3ecf8e] to-[#279299] text-black px-10 py-4 rounded-full transition-all duration-300 hover:scale-105 flex items-center justify-center">
+					<div className="flex flex-col w-full sm:w-auto sm:flex-row gap-4">
+						<a href="https://app.saku.click" target="_blank" className="font-inter font-semibold text-base md:text-lg bg-linear-to-r from-[#3ecf8e] to-[#279299] text-black px-8 py-3 md:px-10 md:py-4 rounded-full transition-all duration-300 hover:scale-105 flex items-center justify-center">
 							Mulai Pesan
 							<ArrowRight className="w-5 h-5 ml-2" strokeWidth={2.5} />
 						</a>
-						<a href="/driver/saku-ride" className="font-inter font-semibold text-lg bg-gray-800/60 backdrop-blur-md border border-gray-700 text-white px-10 py-4 rounded-full transition-all duration-300 hover:bg-gray-700/80 hover:border-gray-600 flex items-center justify-center">
+						<a href="https://driver.saku.click" target="_blank" className="font-inter font-semibold text-base md:text-lg bg-gray-800/60 backdrop-blur-md border border-gray-700 text-white px-8 py-3 md:px-10 md:py-4 rounded-full transition-all duration-300 hover:bg-gray-700/80 hover:border-gray-600 flex items-center justify-center">
 							Gabung SaKu Driver
-							<UserPlus className="w-6 h-6 ml-2" strokeWidth={1.5} />
+							<UserPlus className="w-5 h-5 md:w-6 md:h-6 ml-2" strokeWidth={1.5} />
 						</a>
 					</div>
 				</div>
 
-				<div className="relative hidden md:flex items-center justify-center md:flex-1 h-[500px]">
-					<div className="absolute w-[500px] h-[500px] bg-linear-to-r from-[#3ecf8e] to-[#279299] rounded-full blur-3xl opacity-30" />
-					<div className="absolute w-[300px] h-[300px] bg-linear-to-r from-[#3ecf8e]/50 to-[#279299]/50 rounded-full blur-2xl opacity-50" />
-					<div className="relative font-space-grotesk text-3xl rounded-3xl p-16 backdrop-blur-sm">
-						<Image src={HeroPreview} alt="App Screenshot" width={400} height={400} />
+				<div className="relative hidden items-center justify-center md:flex-1 h-[350px] md:h-[500px] w-full mt-8 md:mt-0">
+					<div className="absolute w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-linear-to-r from-[#3ecf8e] to-[#279299] rounded-full blur-3xl opacity-30" />
+					<div className="absolute w-[200px] md:w-[300px] h-[200px] md:h-[300px] bg-linear-to-r from-[#3ecf8e]/50 to-[#279299]/50 rounded-full blur-2xl opacity-50" />
+					<div className="relative font-space-grotesk text-3xl rounded-3xl p-8 md:p-16 backdrop-blur-sm transform scale-90 md:scale-100">
+						<Image src={HeroPreview} alt="App Screenshot" width={400} height={400} className="w-auto h-auto max-h-[300px] md:max-h-full" />
 					</div>
 				</div>
 			</div>
@@ -215,7 +214,7 @@ const Features: React.FC = () => {
 	return (
 		<section id="fitur" className="md:px-20 px-4 py-16 md:py-24 bg-[#121812]">
 			<div className="container mx-auto px-6 flex flex-col items-center">
-				<h2 className="font-space-grotesk text-4xl md:text-5xl font-bold text-center text-white mb-12 md:mb-16">
+				<h2 className="font-space-grotesk text-3xl md:text-5xl font-bold text-center text-white mb-8 md:mb-16">
 					Kenapa SaKu?
 				</h2>
 
@@ -223,13 +222,13 @@ const Features: React.FC = () => {
 					{features.map((feature, index) => (
 						<div
 							key={index}
-							className="flex-1 bg-[#1A201A] p-8 rounded-2xl border border-gray-800/50 transition-all duration-300 hover:border-[#52c572]/70 transform hover:-translate-y-2"
+							className="flex-1 bg-[#1A201A] p-6 md:p-8 rounded-2xl border border-gray-800/50 transition-all duration-300 hover:border-[#52c572]/70 transform hover:-translate-y-2"
 						>
 							<div className="mb-4">{feature.icon}</div>
-							<h3 className="font-space-grotesk text-2xl font-semibold text-white mb-3">
+							<h3 className="font-space-grotesk text-xl md:text-2xl font-semibold text-white mb-2 md:mb-3">
 								{feature.title}
 							</h3>
-							<p className="font-inter text-gray-400">{feature.description}</p>
+							<p className="font-inter text-sm md:text-base text-gray-400">{feature.description}</p>
 						</div>
 					))}
 				</div>
@@ -245,7 +244,7 @@ const LocationInfo: React.FC = () => {
 			className="md:px-20 px-4 py-16 md:py-24 bg-[#121812] border-t border-b border-gray-800/50"
 		>
 			<div className="container mx-auto px-6 flex flex-col items-center">
-				<h2 className="font-space-grotesk text-4xl md:text-5xl font-bold text-center text-white mb-6">
+				<h2 className="font-space-grotesk text-3xl md:text-5xl font-bold text-center text-white mb-6">
 					Area Operasi Kami
 				</h2>
 				<p className="font-inter text-xl text-gray-400 text-center mb-10 mx-auto">
@@ -255,33 +254,33 @@ const LocationInfo: React.FC = () => {
 					ini kami baru memfokuskan layanan di:
 				</p>
 
-				<div className="flex flex-col items-center gap-12 w-full">
-					<div className="bg-[#1A201A] border border-gray-700/50 rounded-2xl p-8 overflow-hidden w-full">
+				<div className="flex flex-col items-center gap-8 md:gap-12 w-full">
+					<div className="bg-[#1A201A] border border-gray-700/50 rounded-2xl p-5 md:p-8 overflow-hidden w-full">
 						<div className="flex flex-col md:flex-row items-center justify-between gap-6">
-							<div className="shrink-0 w-20 h-20 md:w-24 md:h-24 rounded-full bg-linear-to-r from-[#3ecf8e]/20 to-[#279299]/20 flex items-center justify-center border-2 border-[#3ecf8e]/50 backdrop-blur-sm">
+							<div className="shrink-0 w-16 h-16 md:w-24 md:h-24 rounded-full bg-linear-to-r from-[#3ecf8e]/20 to-[#279299]/20 flex items-center justify-center border-2 border-[#3ecf8e]/50 backdrop-blur-sm">
 								<MapPin
-									className="w-10 h-10 md:w-12 md:h-12 text-[#3ecf8e]"
+									className="w-8 h-8 md:w-12 md:h-12 text-[#3ecf8e]"
 									strokeWidth={1.5}
 								/>
 							</div>
 
 							<div className="grow text-center md:text-left md:pl-1">
-								<h3 className="font-space-grotesk text-3xl md:text-4xl font-bold bg-linear-to-r from-[#3ecf8e] to-[#279299] bg-clip-text text-transparent">
+								<h3 className="font-space-grotesk text-2xl md:text-4xl font-bold bg-linear-to-r from-[#3ecf8e] to-[#279299] bg-clip-text text-transparent">
 									UIN Suska Riau
 								</h3>
-								<p className="font-inter text-gray-300 text-lg mt-2">
+								<p className="font-inter text-gray-300 text-base md:text-lg mt-2">
 									(dan area strategis sekitarnya)
 								</p>
 							</div>
 						</div>
 					</div>
 
-					<div className="bg-gray-800/30 border border-gray-700/60 rounded-xl p-6 flex items-center justify-center md:justify-start gap-5">
-						<div className="shrink-0">
-							<Rocket className="w-6 h-6 text-[#52c572]" />
+					<div className="w-full bg-linear-to-r from-[#3ecf8e]/10 to-[#279299]/10 border border-[#3ecf8e]/30 rounded-xl p-6 flex flex-col md:flex-row items-center gap-4 md:gap-6 text-center md:text-left transition-all duration-300 hover:bg-[#3ecf8e]/5">
+						<div className="shrink-0 p-3 bg-[#3ecf8e]/20 rounded-full">
+							<Rocket className="w-6 h-6 md:w-8 md:h-8 text-[#3ecf8e]" />
 						</div>
-						<p className="font-inter text-base md:text-lg text-gray-400 text-left">
-							<span className="font-medium text-gray-200">
+						<p className="font-inter text-base md:text-lg text-gray-300">
+							<span className="font-bold text-white block md:inline">
 								Gak sabar pengen ada di-Kampusmu?
 							</span>{" "}
 							Nantikan kehadiran kami segera yak!
@@ -296,19 +295,19 @@ const LocationInfo: React.FC = () => {
 const PwaInstallGuide: React.FC = () => {
 	const steps = [
 		{
-			icon: <AppWindow className="w-8 h-8 text-[#52c572]" strokeWidth={1.5} />,
+			icon: <AppWindow className="w-6 h-6 md:w-8 md:h-8 text-[#52c572]" strokeWidth={1.5} />,
 			title: "1. Buka di Browser",
 			description:
 				"Buka website SaKu (saku.app) di browser HP-mu (Chrome, Safari, dll).",
 		},
 		{
-			icon: <Share className="w-8 h-8 text-[#52c572]" strokeWidth={1.5} />,
+			icon: <Share className="w-6 h-6 md:w-8 md:h-8 text-[#52c572]" strokeWidth={1.5} />,
 			title: "2. Cari Tombol Opsi",
 			description:
 				"Klik tombol 'Share' [↑] (di iOS) atau menu 'Opsi' ︙ (di Android).",
 		},
 		{
-			icon: <SquarePlus className="w-8 h-8 text-[#52c572]" strokeWidth={1.5} />,
+			icon: <SquarePlus className="w-6 h-6 md:w-8 md:h-8 text-[#52c572]" strokeWidth={1.5} />,
 			title: "3. Add to Home Screen",
 			description:
 				"Pilih 'Tambahkan ke Layar Utama' atau 'Install App'. SaKu akan muncul di HP-mu!",
@@ -318,7 +317,7 @@ const PwaInstallGuide: React.FC = () => {
 	return (
 		<section id="install" className="md:px-20 px-4 py-16 md:py-24 bg-[#101510]">
 			<div className="container mx-auto px-6 flex flex-col items-center">
-				<h2 className="font-space-grotesk text-4xl md:text-5xl font-bold text-center text-white mb-6">
+				<h2 className="font-space-grotesk text-3xl md:text-5xl font-bold text-center text-white mb-6">
 					Install SaKu App
 				</h2>
 				<p className="font-inter text-xl text-gray-400 text-center mb-12 md:mb-16 mx-auto">
@@ -327,23 +326,23 @@ const PwaInstallGuide: React.FC = () => {
 				</p>
 
 				<div className="w-full max-w-2xl">
-					<div className="relative flex flex-col gap-16">
-						<div className="absolute left-8 top-0 h-[90%] w-px bg-gray-700 hidden md:block" />
+					<div className="relative flex flex-col gap-10 md:gap-16">
+						<div className="absolute left-6 md:left-8 top-0 h-[90%] w-px bg-gray-700 hidden md:block" />
 
 						{steps.map((step, index) => (
 							<div
 								key={index}
-								className="relative flex flex-row items-start gap-8"
+								className="relative flex flex-row items-start gap-4 md:gap-8"
 							>
-								<div className="relative z-10 shrink-0 h-16 w-16 bg-[#1A201A] border-2 border-[#52c572] rounded-full flex items-center justify-center">
+								<div className="relative z-10 shrink-0 h-12 w-12 md:h-16 md:w-16 bg-[#1A201A] border-2 border-[#52c572] rounded-full flex items-center justify-center">
 									{step.icon}
 								</div>
 
 								<div className="pt-1">
-									<h3 className="font-space-grotesk text-xl md:text-2xl font-semibold text-white mb-3">
+									<h3 className="font-space-grotesk text-lg md:text-2xl font-semibold text-white mb-1 md:mb-3">
 										{step.title}
 									</h3>
-									<p className="font-inter text-gray-400">{step.description}</p>
+									<p className="font-inter text-sm md:text-base text-gray-400">{step.description}</p>
 								</div>
 							</div>
 						))}
